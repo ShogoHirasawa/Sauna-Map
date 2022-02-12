@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>サウナマップ</title>
+    <title>Points on a map</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
     <link
@@ -31,9 +31,9 @@
       const map = new mapboxgl.Map({
         container: "map",
         // Replace YOUR_STYLE_URL with your style URL.
-        style: "mapbox://styles/shogohirasawa/cky48wwii0rhd14pa3uiqfa1a",
-        center: [140.27610, 35.57810],
-        zoom: 5.63,　　　
+        style: "mapbox://styles/shogohirasawa/ckzjf6zad001s16oty9q2w72e",
+        center: [-139.65338, 37.39818],
+        zoom: 5.16,
       });
 
       /* 
@@ -43,17 +43,24 @@ Add an event listener that runs
       map.on("click", (event) => {
         // If the user clicked on one of your markers, get its information.
         const features = map.queryRenderedFeatures(event.point, {
-          layers: ["sauna-map"], // replace with your layer name
+          layers: ["saunamap"], // replace with your layer name
         });
         if (!features.length) {
           return;
         }
         const feature = features[0];
 
-        // Code from the next step will go here.
+        /* 
+    Create a popup, specify its options 
+    and properties, and add it to the map.
+  */
+        const popup = new mapboxgl.Popup({ offset: [0, -15] })
+          .setLngLat(feature.geometry.coordinates)
+          .setHTML(
+            `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+          )
+          .addTo(map);
       });
-
-      // Code from the next step will go here.
     </script>
   </body>
 </html>
